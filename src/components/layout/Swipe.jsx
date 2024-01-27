@@ -1,26 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import TmdbContext from '../../context/tmdb/TmdbContext';
 
 function Swipe() {
-  const [movies, setMovies] = useState([]);
+  const { swiperData, fetchAPI } = useContext(TmdbContext);
 
   useEffect(() => {
-    async function fetchAPI() {
-      const response = await fetch(
-        'https://api.themoviedb.org/3/movie/now_playing?api_key=814ea9b39c01fdb6848fd9ee5f9bbbf5&language=en-US'
-      );
-
-      const { results } = await response.json();
-
-      setMovies(results);
-    }
     fetchAPI();
-  });
+  }, []);
 
   return (
     <Swiper
@@ -33,7 +25,7 @@ function Swipe() {
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log('slide change')}
     >
-      {movies.map((movie) => (
+      {swiperData.map((movie) => (
         <SwiperSlide key={movie.id}>
           <a href="">
             <img

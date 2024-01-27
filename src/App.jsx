@@ -3,10 +3,11 @@ import Home from './pages/Home';
 import Header from './components/layout/Header';
 import { useState } from 'react';
 import './App.css';
+import { TmdbProvider } from './context/tmdb/TmdbContext.jsx';
 
 function App() {
   return (
-    <>
+    <TmdbProvider>
       <Router>
         <div className="flex flex-col justify-between h-screen">
           <Header />
@@ -16,7 +17,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </>
+    </TmdbProvider>
   );
 }
 
