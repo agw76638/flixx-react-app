@@ -9,6 +9,7 @@ const TMDB_URL = import.meta.env.VITE_TMDB_URL;
 export const TmdbProvider = ({ children }) => {
   const initialState = {
     swiper: [],
+    search: [],
   };
 
   const [state, dispatch] = useReducer(tmdbReducer, initialState);
@@ -26,8 +27,29 @@ export const TmdbProvider = ({ children }) => {
     });
   };
 
+  const searchAPI = async (text, type) => {
+    const response = await fetch(`${TMDB_URL}search/${type}?api_key=${TMDB_KEY}&
+    language=en-US&query=${text}&page=1`);
+
+    const { results } = await response.json();
+
+    console.log(results);
+
+    dispatch({
+      type: 'SEARCH',
+      payload: results,
+    });
+  };
+
   return (
-    <TmdbContext.Provider value={{ swiperData: state.swiper, fetchAPI }}>
+    <TmdbContext.Provider
+      value={{
+        swiperData: state.swiper,
+        fetchAPI,
+        searchResult: state.search,
+        searchAPI,
+      }}
+    >
       {children}
     </TmdbContext.Provider>
   );

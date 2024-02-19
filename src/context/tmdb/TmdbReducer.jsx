@@ -5,6 +5,11 @@ const tmdbReducer = (state, action) => {
         ...state,
         swiper: action.payload,
       };
+    case 'SEARCH':
+      return {
+        ...state,
+        search: action.payload,
+      };
     default:
       return state;
   }
